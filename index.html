@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="shop">
+	<head>	
+		<title>Shopping Cart</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="script/angular.min.js"></script>
+		<script type="text/javascript" src="script/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="script/app.js"></script>
+
+	</head>
+		
+	<body>
+		<hearder>
+			<h1>Some Random Shop</h1>
+		</hearder>
+		<div class="container">
+			<h1>Inventory</h1>
+			<div class="cart" ng-controller="InventoryController as inventory">
+				<div class='items' ng-repeat="item in inventory.items">
+					<h2>{{item.name}}</h2>
+					<h3>{{item.price | currency: N}}</h3>
+					<button>Buy</button>
+				</div>
+			</div>
+			<div class="checkout"></div>
+		</div>
+	
+	</body>
+</html>
