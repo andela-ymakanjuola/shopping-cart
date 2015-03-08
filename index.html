@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="shop">
+<html ng-app="app">
 	<head>	
 		<title>Shopping Cart</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -10,19 +10,64 @@
 	</head>
 		
 	<body>
-		<hearder>
+		<header>
 			<h1>Some Random Shop</h1>
-		</hearder>
+		</header>
 		<div class="container">
-			<h1>Inventory</h1>
-			<div class="cart" ng-controller="InventoryController as inventory">
+			
+			<div class="inventory" ng-controller="InventoryController as inventory">
+				<h1>Inventory</h1>
 				<div class='items' ng-repeat="item in inventory.items">
-					<h2>{{item.name}}</h2>
-					<h3>{{item.price | currency: N}}</h3>
-					<button>Buy</button>
+					<h3>{{item.name}}</h2>
+					<em>{{item.price | currency:"N"}}</em><br>
+					<button ng-hide="item.quantity <= 0" ng-click="CartService.add(item)">Add to Cart</button>
+					<h2 ng-show ="item.quantity <= 0"> SOLD OUT</h2>
 				</div>
 			</div>
-			<div class="checkout"></div>
+			<div class="checkout">
+				<div class="cart" ng-controller="CartController">
+					<h1>Cart</h1>
+
+					<p ng-hide="CartService.count()>0">Your Cart is empty</p>
+
+					<button ng-show="CartService.count()>0" ng-click="PurchaseService.add(CartService.get())">Checkout</button>
+					<table ng-show="CartService.count()>0"  >
+						<tr>
+							<th>Item</th>
+							<th>Price</th>
+							<th>QTY</th>
+							<th></th>
+						</tr>
+						<tr ng-repeat="products in CartService.get()">
+							<td>{{products.product.name}}</td>
+							<td>{{products.product.price | currency: ""}}</td>
+							<td>{{products.incart}}</td>						
+							<td><button ng-click="CartService.remove(products.type)"ng-hide="products.purchase==true">X</button>
+								<p ng-show="products.purchase==true">PURCHASED</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="purchased" ng-controller="PurchaseController as purchase">
+					
+					<h1>Purchased</h1>
+
+					<p ng-show="PurchaseService.get().length ===0">You have not bought any item</p>
+					
+					<table ng-hide="PurchaseService.get().length ===0">
+						<tr>
+							<th>Item</th>
+							<th>Price</th>
+							<th>QTY</th>
+						</tr>
+						<tr ng-repeat="items in PurchaseService.get()">
+							<td>{{items.product.name}}</td>
+							<td>{{items.product.price | currency: ""}}</td>
+							<td>{{items.incart}}</td>				
+						</tr>
+					</table>
+				</div>
+			</div>
 		</div>
 	
 	</body>
