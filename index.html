@@ -9,6 +9,8 @@
 	    <script src="bower_components/angular-aria/angular-aria.js"></script>
 	    <script src="bower_components/angular-material/angular-material.js"></script>
 	    <script type="text/javascript" src="script/app.js"></script>
+	    <script type="text/javascript" src="script/cart.js"></script>
+	    <script type="text/javascript" src="script/purchase.js"></script>
 
 	</head>
 		
@@ -23,7 +25,7 @@
 
 		<md-content class="container"  class ="md-padding ng-scope md-default-theme">			
 			
-			<div class="inventory" ng-controller="InventoryController as inventory">
+			<md-content class="inventory" ng-controller="InventoryController as inventory">
 				<md-toolbar class="md-primary">
 				    <h1 class="md-toolbar-tools">
 				      <span>Inventory</span>
@@ -33,44 +35,46 @@
 				<md-card class='items' layout="column" ng-repeat="item in inventory.items">
 					<img ng-src="{{item.images}}" alt="Washed Out">
 					<md-card-content flex flex-order="3">
-						<h2>{{item.name}}</h2>
-						<em>{{item.price | currency:"N"}}</em><br>
 						
-						<h2 ng-show ="item.quantity <= 0"> SOLD OUT</h2>
-						<md-button class="md-primary" ng-hide="item.quantity <= 0" ng-click="CartService.add(item)">Add to Cart</md-button>
+						<h3>{{item.name}}</h3>
+						<em>{{item.price | currency:"N"}}</em>
+						<md-button class="md-raised md-accent" ng-hide="item.quantity <= 0" ng-click="CartService.add(item)">Add to Cart</md-button>
+					
+						
+						
 					<md-card-content>
 
 				</md-card>
-			</div>
-			<div class="checkout">
+			</md-content>
+			<md-content class="checkout">
 				<div class="cart" ng-controller="CartController">
 					<md-toolbar class="md-theme-light">
 					    <h1 class="md-toolbar-tools">
-					      <span>Cart</span>
-
-					      <md-button class="md-raised" ng-show="CartService.count()>0" ng-click="PurchaseService.add(CartService.get())">Checkout</md-button>
+					      <span>Cart</span>	
 					    </h1>
+					    <md-button class="md-raised md-accent" ng-show="CartService.count()>0" ng-click="PurchaseService.add(CartService.get())">Checkout</md-button>
 				  	</md-toolbar>
-
-					<p ng-hide="CartService.count()>0">Your Cart is empty</p>
-
-					
-					<table ng-show="CartService.count()>0">
-						<tr>
-							<th>Item</th>
-							<th>Price</th>
-							<th>QTY</th>
-							<th></th>
-						</tr>
-						<tr ng-repeat="products in CartService.get()">
-							<td>{{products.product.name}}</td>
-							<td>{{products.product.price | currency: ""}}</td>
-							<td>{{products.incart}}</td>						
-							<td><md-button ng-click="CartService.remove(products.product)">X</md-button>
-								
-							</td>
-						</tr>
-					</table>
+				  	<md-card>
+						<p ng-hide="CartService.count()>0">Your Cart is empty</p>						
+						<table ng-show="CartService.count()>0">
+							<tr>
+								<th>Item</th>
+								<th>Price</th>
+								<th>QTY</th>
+								<th>Sub Total</th>									
+								<th></th>
+							</tr>
+							<tr ng-repeat="products in CartService.get()">
+								<td>{{products.product.name}}</td>
+								<td>{{products.product.price | currency: ""}}</td>
+								<td>{{products.incart}}</td>
+								<td>{{products.product.price * products.incart| currency: ""}}</td>						
+								<td><md-button class="md-warn" ng-click="CartService.remove(products.product)">X</md-button>
+									
+								</td>
+							</tr>
+						</table>
+					<md-card>
 				</div>
 				<div class="purchased" ng-controller="PurchaseController as purchase">
 					
@@ -79,23 +83,27 @@
 					      <span>Purchased</span>
 					    </h1>
 				  	</md-toolbar>
-
-					<p ng-show="PurchaseService.get().length ===0">You have not bought any item</p>
-					
-					<table ng-hide="PurchaseService.get().length ===0">
-						<tr>
-							<th>Item</th>
-							<th>Price</th>
-							<th>QTY</th>
-						</tr>
-						<tr ng-repeat="items in PurchaseService.get()">
-							<td>{{items.product.name}}</td>
-							<td>{{items.product.price | currency: ""}}</td>
-							<td>{{items.incart}}</td>				
-						</tr>
-					</table>
+				  	<md-card>
+						<p ng-show="PurchaseService.get().length ===0">You have not bought any item</p>
+						
+						<table ng-hide="PurchaseService.get().length ===0">
+							<tr>
+								<th>Item</th>
+								<th>Price</th>
+								<th>QTY</th>
+								<th>Sub Total</th>
+							</tr>
+							<tr ng-repeat="items in PurchaseService.get()">
+								<td>{{items.product.name}}</td>
+								<td>{{items.product.price | currency: ""}}</td>
+								<td>{{items.incart}}</td>
+								<td>{{items.product.price * items.incart| currency: ""}}</td>				
+							</tr>
+						</table>
+					<md-card>
 				</div>
-			</div>
+			</md-content>
+			<div clear="both"></div>
 		</md-content>
 	
 	</body>
