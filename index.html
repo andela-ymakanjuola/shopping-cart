@@ -2,10 +2,13 @@
 <html ng-app="app">
 	<head>	
 		<title>Shopping Cart</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<script type="text/javascript" src="script/angular.min.js"></script>
-		<script type="text/javascript" src="script/jquery-1.11.2.min.js"></script>
-		<script type="text/javascript" src="script/app.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/style.css">	
+		<link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.css">
+		<script src="bower_components/angular/angular.js"></script>
+	    <script src="bower_components/angular-animate/angular-animate.js"></script>
+	    <script src="bower_components/angular-aria/angular-aria.js"></script>
+	    <script src="bower_components/angular-material/angular-material.js"></script>
+	    <script type="text/javascript" src="script/app.js"></script>
 
 	</head>
 		
@@ -13,16 +16,27 @@
 		<header>
 			<h1>Some Random Shop</h1>
 		</header>
-		<div class="container">
+
+		
+
+		<md-content class="container" md-scroll-y flex class ="md-padding ng-scope md-default-theme">
+			
 			
 			<div class="inventory" ng-controller="InventoryController as inventory">
 				<h1>Inventory</h1>
-				<div class='items' ng-repeat="item in inventory.items">
-					<h3>{{item.name}}</h2>
-					<em>{{item.price | currency:"N"}}</em><br>
-					<button ng-hide="item.quantity <= 0" ng-click="CartService.add(item)">Add to Cart</button>
-					<h2 ng-show ="item.quantity <= 0"> SOLD OUT</h2>
-				</div>
+				<md-card class='items' ng-repeat="item in inventory.items">
+					<img ng-src="{{item.images}}" alt="Washed Out">
+					<md-card-content>
+						<h3>{{item.name}}</h2>
+						<em>{{item.price | currency:"N"}}</em><br>
+						
+						<h2 ng-show ="item.quantity <= 0"> SOLD OUT</h2>
+						<md-button class="md-primary" ng-hide="item.quantity <= 0" ng-click="CartService.add(item)">
+							<md-icon md-svg-src="img/icons/cake.svg" class="s24" alt="Cake"    ></md-icon>
+						</md-button>
+					<md-card-content>
+
+				</md-card>
 			</div>
 			<div class="checkout">
 				<div class="cart" ng-controller="CartController">
@@ -30,7 +44,7 @@
 
 					<p ng-hide="CartService.count()>0">Your Cart is empty</p>
 
-					<button ng-show="CartService.count()>0" ng-click="PurchaseService.add(CartService.get())">Checkout</button>
+					<md-button class="md-raised" ng-show="CartService.count()>0" ng-click="PurchaseService.add(CartService.get())">Checkout</md-button>
 					<table ng-show="CartService.count()>0"  >
 						<tr>
 							<th>Item</th>
@@ -42,8 +56,8 @@
 							<td>{{products.product.name}}</td>
 							<td>{{products.product.price | currency: ""}}</td>
 							<td>{{products.incart}}</td>						
-							<td><button ng-click="CartService.remove(products.type)"ng-hide="products.purchase==true">X</button>
-								<p ng-show="products.purchase==true">PURCHASED</p>
+							<td><button ng-click="CartService.remove(products.product)">X</button>
+								
 							</td>
 						</tr>
 					</table>
@@ -68,7 +82,7 @@
 					</table>
 				</div>
 			</div>
-		</div>
+		</md-content>
 	
 	</body>
 </html>
