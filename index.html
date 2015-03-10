@@ -2,18 +2,38 @@
 <html ng-app="app">
 	<head >	
 		<title>Shopping Cart</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css">	
-		<link rel="stylesheet" type="text/css" href="bower_components/angular-material/angular-material.css">
-		<script src="bower_components/angular/angular.js"></script>
-	    <script src="bower_components/angular-animate/angular-animate.js"></script>
-	    <script src="bower_components/angular-aria/angular-aria.js"></script>
-	    <script src="bower_components/angular-material/angular-material.js"></script>
-	    <script type="text/javascript" src="script/app.js"></script>
-	    <script type="text/javascript" src="script/cart.js"></script>
-	    <script type="text/javascript" src="script/purchase.js"></script>
 
-	</head>
+		<!--CSS-->
+		<link rel="stylesheet" type="text/css" href="css/style.css">		
 		
+		<!--Dependencies-->
+		<link rel="stylesheet" type="text/css" href="vendor/angular-material/angular-material.css">
+		<script src="vendor/angular/angular.js"></script>
+	    <script src="vendor/angular-animate/angular-animate.js"></script>
+	    <script src="vendor/angular-aria/angular-aria.js"></script>
+	    <script src="vendor/angular-material/angular-material.js"></script>
+	    
+	    <!--Modules-->
+	    <script type="text/javascript" src="js/app/app.js"></script>
+	    <script type="text/javascript" src="js/app/shopping-cart/shoppingcart.js"></script>
+	    <script type="text/javascript" src="js/app/inventory/inventory.js"></script>
+
+	     <!--Controllers-->
+	    <script type="text/javascript" src="js/app/inventory/controllers/inventory.controller.js"></script>
+	    <script type="text/javascript" src="js/app/shopping-cart/controllers/cart.controller.js"></script>
+	    <script type="text/javascript" src="js/app/shopping-cart/controllers/purchase.controller.js"></script>
+
+	     <!--Services-->	    
+	    <script type="text/javascript" src="js/app/shopping-cart/services/cart.service.js"></script>
+	    <script type="text/javascript" src="js/app/shopping-cart/services/purchase.service.js"></script>
+	    
+
+	    <!--Directives-->
+	    <script type="text/javascript" src="js/app/inventory/directives/inventory.directive.js"></script>
+	    <script type="text/javascript" src="js/app/shopping-cart/controllers/cart.controller.js"></script>
+	 
+	</head>
+	
 	<body>
 		<header layout="column">
 			<md-toolbar class="md-primary">
@@ -30,33 +50,30 @@
 				    <h1 class="md-toolbar-tools">
 				      <span>Inventory</span>
 				    </h1>
-			  	</md-toolbar>
-				
+				</md-toolbar>
+
 				<md-card class='items' layout="column" ng-repeat="item in inventory.items">
 					<img ng-src="{{item.images}}" alt="Washed Out">
-					<md-card-content flex flex-order="3">
-						
+					<md-card-content flex flex-order="3">		
 						<h3>{{item.name}}</h3>
 						<em>{{item.price | currency:"N"}}</em>
-						<md-button class="md-raised md-accent" ng-hide="item.quantity <= 0" ng-click="CartService.add(item)">Add to Cart</md-button>
-					
-						
-						
+						<md-button class="md-raised md-accent" ng-hide="item.quantity <= 0" ng-click="add(item)">Add to Cart</md-button>						
 					<md-card-content>
-
 				</md-card>
 			</md-content>
+
 			<md-content class="checkout">
+
 				<div class="cart" ng-controller="CartController">
 					<md-toolbar class="md-theme-light">
 					    <h1 class="md-toolbar-tools">
 					      <span>Cart</span>	
 					    </h1>
-					    <md-button class="md-raised md-accent" ng-show="CartService.count()>0" ng-click="PurchaseService.add(CartService.get())">Checkout</md-button>
+					    <md-button class="md-raised md-accent" ng-show="count()>0" ng-click="addtoPurchased()">Checkout</md-button>
 				  	</md-toolbar>
 				  	<md-card>
-						<p ng-hide="CartService.count()>0">Your Cart is empty</p>						
-						<table ng-show="CartService.count()>0">
+						<p ng-hide="count()>0">Your Cart is empty</p>						
+						<table ng-show="count()>0">
 							<tr>
 								<th>Item</th>
 								<th>Price</th>
@@ -64,18 +81,19 @@
 								<th>Sub Total</th>									
 								<th></th>
 							</tr>
-							<tr ng-repeat="products in CartService.get()">
+							<tr ng-repeat="products in getCart()">
 								<td>{{products.product.name}}</td>
 								<td>{{products.product.price | currency: ""}}</td>
 								<td>{{products.incart}}</td>
 								<td>{{products.product.price * products.incart| currency: ""}}</td>						
-								<td><md-button class="md-warn" ng-click="CartService.remove(products.product)">X</md-button>
+								<td><md-button class="md-warn" ng-click="removeProduct(products.product)">X</md-button>
 									
 								</td>
 							</tr>
 						</table>
 					<md-card>
 				</div>
+
 				<div class="purchased" ng-controller="PurchaseController as purchase">
 					
 					<md-toolbar class="md-theme-light">
@@ -83,17 +101,18 @@
 					      <span>Purchased</span>
 					    </h1>
 				  	</md-toolbar>
+
 				  	<md-card>
-						<p ng-show="PurchaseService.get().length ===0">You have not bought any item</p>
+						<p ng-show="getPurchase().length === 0">You have not bought any item</p>
 						
-						<table ng-hide="PurchaseService.get().length ===0">
+						<table ng-hide="getPurchase().length === 0">
 							<tr>
 								<th>Item</th>
 								<th>Price</th>
 								<th>QTY</th>
 								<th>Sub Total</th>
 							</tr>
-							<tr ng-repeat="items in PurchaseService.get()">
+							<tr ng-repeat="items in getPurchase()">
 								<td>{{items.product.name}}</td>
 								<td>{{items.product.price | currency: ""}}</td>
 								<td>{{items.incart}}</td>
@@ -101,7 +120,9 @@
 							</tr>
 						</table>
 					<md-card>
+
 				</div>
+
 			</md-content>
 			<div clear="both"></div>
 		</md-content>

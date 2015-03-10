@@ -1,0 +1,21 @@
+{
+  "name": "shopping-cart",
+  "version": "0.0.0",
+  "homepage": "https://github.com/andela-ymakanjuola/shopping-cart",
+  "authors": [
+    "yinka <yinka.makanjuola@gmail.com>"
+  ],
+  "description": "implementation of a shopping cart using angularjs",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "~0.8.3",
+    "ngDraggable": "~0.0.31"
+  }
+}
