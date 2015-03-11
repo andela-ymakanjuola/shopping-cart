@@ -29,6 +29,15 @@
 	margin: 10px;
 	float: left;
 }
+.price{
+	width: 80px;
+	height: 30px;
+	float: left;
+	background-color: #F44336;
+	color: white;
+	padding: 10px;
+	z-index: 3;
+}
 
 img{
 	width: 100%;
