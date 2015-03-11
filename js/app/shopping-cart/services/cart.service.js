@@ -16,8 +16,7 @@ angular.module('ShoppingCart')
 
 	return{
 		get: function(){
-			return cart;
-			console.log(cart);
+			return cart;		
 		},
 
 		getItems: function(){
@@ -33,11 +32,9 @@ angular.module('ShoppingCart')
 						product: item,
 						incart: 1,
 					}
-				}
-				console.log(cart);
+				}			
 
-			count++;
-			console.log(count);
+			count++;			
 		},
 		remove: function(item){
 			if (cart[item.id]){

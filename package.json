@@ -1,0 +1,24 @@
+{
+  "name": "shopping-cart",
+  "version": "0.0.0",
+  "description": "karma test for shopping cart app",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andela-ymakanjuola/shopping-cart.git"
+  },
+  "author": "yinka.makanjuola@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-ymakanjuola/shopping-cart/issues"
+  },
+  "homepage": "https://github.com/andela-ymakanjuola/shopping-cart",
+  "dependencies": {
+    "karma": "~0.12.31",
+    "karma-chrome-launcher": "~0.1.7"
+  },
+  "devDependencies": {}
+}
