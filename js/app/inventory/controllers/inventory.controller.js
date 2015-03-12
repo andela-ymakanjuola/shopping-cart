@@ -7,8 +7,7 @@ angular.module("Inventory")
 	InventoryService.getItems().success(function(data){
 		store.items = data;
 	});
-
-	console.log(store.items);
+	
 	$scope.add = function(item){
 		CartService.add(item);
 		

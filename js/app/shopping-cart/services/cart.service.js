@@ -9,8 +9,7 @@ angular.module('ShoppingCart')
 	return{
 		get: function(){
 			return cart;		
-		},
-		
+		},		
 
 		add: function(item){
 			if (cart[item.id]){
@@ -21,10 +20,10 @@ angular.module('ShoppingCart')
 						product: item,
 						incart: 1,
 					}
-				}			
-
+				}	
 			count++;			
 		},
+
 		remove: function(item){
 			if (cart[item.id]){
 				cart[item.id].incart -=1;
@@ -34,14 +33,17 @@ angular.module('ShoppingCart')
 				count--;
 			}				
 		},
+
 		total: function(carts){
 			angular.forEach(bought, function(value, key){
 				
 			}, purchase);
 		},
+
 		count: function(){
 			return count;
 		},	
+
 		reset: function(){
 			cart ={};
 			count = 0;
