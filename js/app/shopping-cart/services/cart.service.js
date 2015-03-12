@@ -1,24 +1,16 @@
 angular.module('ShoppingCart')
 
-.factory('CartService',function($http){		
+.factory('CartService',function(){		
 	
-
 	var count =0;
 	var cart = {};
-	
-	
-
-	var item_json = $http.get('items.json');
-	
+		
 
 	return{
 		get: function(){
 			return cart;		
 		},
-
-		getItems: function(){
-			return item_json;
-		},
+		
 
 		add: function(item){
 			if (cart[item.id]){

@@ -1,10 +1,10 @@
 angular.module("Inventory")
 
-.controller('InventoryController', function($scope, CartService){
+.controller('InventoryController', function($scope, CartService, InventoryService){
 	var store = this;
 	store.items = [];
 
-	CartService.getItems().success(function(data){
+	InventoryService.getItems().success(function(data){
 		store.items = data;
 	});
 
